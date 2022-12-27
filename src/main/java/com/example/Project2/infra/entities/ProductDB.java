@@ -24,5 +24,4 @@ public class ProductDB extends Product {
     @Column(name = "amount",  nullable = false)
      private Integer amount;
 
-
 }

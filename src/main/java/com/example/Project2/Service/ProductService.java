@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
      ProductRepository productRepository;
-    ResponseHandler responseHandler;
+     ResponseHandler responseHandler;
     public ResponseEntity save(ProductDB productDB){
          productRepository.save(productDB);
          responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED);
@@ -34,4 +34,15 @@ public class ProductService {
     public ProductDB EditById(Long id, ProductDB productDB){
         return productRepository.save(productDB);
     }
+    public List<ProductDB> FilterDescription(String description){
+        return productRepository.findByDescription(description);
+    }
+    public ProductDB UpdatePrice (Long id, Float price){
+
+        ProductDB productDB = productRepository.findByCodigo(id);
+        productDB.setPrice(price);
+        return productRepository.save(productDB);
+    }
+
+
 }
