@@ -3,6 +3,8 @@ package com.example.Project2.Controller;
 import com.example.Project2.Service.ProductService;
 import com.example.Project2.infra.entities.ProductDB;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +39,22 @@ public class ProductController {
     public List<ProductDB> FilterDescription (@PathVariable String description){
       return productService.FilterDescription(description);
     }
+    @GetMapping
+    @RequestMapping("/products/pagination")
+    public Page<ProductDB> ListAlunosPagina(Pageable pageable){
+       return productService.Paginacao(pageable);
+    }
     @PatchMapping
     @RequestMapping("/product/update/price/{id}/{price}")
     public ProductDB UpdatePrice(@PathVariable("id") Long id, @PathVariable("price") Float price){
         return productService.UpdatePrice(id, price);
     }
+    @PutMapping
+    @RequestMapping("/product/update/{codigo}")
+    public ProductDB Update(@PathVariable("codigo") Long id, @RequestBody ProductDB productDB){
+        return productService.EditById(id, productDB);
+    }
+
 
     @DeleteMapping
     @RequestMapping("/product/delete/{id}")

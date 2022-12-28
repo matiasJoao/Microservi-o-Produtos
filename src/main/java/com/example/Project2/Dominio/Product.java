@@ -1,20 +1,19 @@
 package com.example.Project2.Dominio;
 
 public class Product {
+    private Long Codigo;
+    private String descripton;
+    private Float price;
+    private Integer amount;
+    public Product(){
 
-  public Product(Long codigo, String descripton,Float price,Integer amount) {
+    }
+    public Product(Long codigo, String descripton,Float price,Integer amount) {
         this.Codigo = codigo;
         this.descripton = descripton;
         this.price = price;
         this.amount = amount;
     }
-    public Product(){
-
-    }
-    private Long Codigo;
-    private String descripton;
-    private Float price;
-    private Integer amount;
 
 
 
