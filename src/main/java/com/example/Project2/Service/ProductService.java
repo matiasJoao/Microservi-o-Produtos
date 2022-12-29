@@ -20,9 +20,22 @@ public class ProductService {
     ResponseHandler responseHandler;
 
     public ResponseEntity save(ProductDB productDB) {
-        productRepository.save(productDB);
-        responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseHandler);
+      String desc;
+      Integer amount;
+      Float price;
+        amount=  productDB.getAmount();
+        price = productDB.getPrice();
+        desc = productDB.getDescription();
+
+       if(desc.equalsIgnoreCase("") || price <= 0 || amount <= 0){
+           responseHandler = new ResponseHandler("400", "Valores invalidos", HttpStatus.BAD_REQUEST);
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseHandler);
+       }
+       else {
+           productRepository.save(productDB);
+           responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED);
+           return ResponseEntity.status(HttpStatus.CREATED).body(responseHandler);
+       }
     }
 
     public List<ProductDB> ListProducts() {

@@ -2,6 +2,7 @@ package com.example.Project2.Controller;
 
 import com.example.Project2.Service.ProductService;
 import com.example.Project2.infra.entities.ProductDB;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ public class ProductController {
 
     @PostMapping
     @RequestMapping("product/register")
-    public ResponseEntity ProductResgister(@RequestBody ProductDB productDB){
+    public ResponseEntity ProductResgister(@RequestBody @Valid ProductDB  productDB){
         return productService.save(productDB);
     }
     @GetMapping
