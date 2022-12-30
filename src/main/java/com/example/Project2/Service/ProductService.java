@@ -23,29 +23,29 @@ public class ProductService {
     ResponseHandler responseHandler;
 
     public ResponseEntity save(ProductDB productDB) {
-      String desc, type;
-      Integer amount;
-      Float price;
-      Boolean verifyDesc;
-      Boolean verifyType;
-      amount=  productDB.getAmount();
-      price = productDB.getPrice();
-      desc = productDB.getDescription();
-      type = productDB.getType();
-      Regex regex = new Regex();
-      verifyDesc = regex.description(desc);
-      verifyType = regex.description(type);
+        String desc, type;
+        Integer amount;
+        Float price;
+        Boolean verifyDesc;
+        Boolean verifyType;
+        amount=  productDB.getAmount();
+        price = productDB.getPrice();
+        desc = productDB.getDescription();
+        type = productDB.getType();
+        Regex regex = new Regex();
+        verifyDesc = regex.description(desc);
+        verifyType = regex.description(type);
 
 
-           if( verifyDesc|| verifyType || price <= 0 || amount <= 0){
-               responseHandler = new ResponseHandler("400", "Valores invalidos", HttpStatus.BAD_REQUEST, new Date());
-               return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseHandler);
-           }
-           else {
-               productRepository.save(productDB);
-               responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED, new Date());
-               return ResponseEntity.status(HttpStatus.CREATED).body(responseHandler);
-           }
+        if( verifyDesc|| verifyType || price <= 0 || amount <= 0){
+            responseHandler = new ResponseHandler("400", "Valores invalidos", HttpStatus.BAD_REQUEST, new Date());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseHandler);
+        }
+        else {
+            productRepository.save(productDB);
+            responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED, new Date());
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseHandler);
+        }
     }
 
     public List<ProductDB> ListProducts() {
@@ -82,7 +82,7 @@ public class ProductService {
         return productRepository.save(productDB);
     }
     public Page<ProductDB> Paginacao(Pageable pageable){
-      return productRepository.findAll(pageable);
+        return productRepository.findAll(pageable);
     }
 
 }

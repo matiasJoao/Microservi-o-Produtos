@@ -38,12 +38,12 @@ public class ProductController {
     @GetMapping
     @RequestMapping("/products/type/{type}")
     public List<ProductDB> FilterDescription (@PathVariable String type){
-      return productService.FilterType(type);
+        return productService.FilterType(type);
     }
     @GetMapping
     @RequestMapping("/products/pagination")
     public Page<ProductDB> ListAlunosPagina(Pageable pageable){
-       return productService.Paginacao(pageable);
+        return productService.Paginacao(pageable);
     }
     @PatchMapping
     @RequestMapping("/product/update/price/{id}/{price}")

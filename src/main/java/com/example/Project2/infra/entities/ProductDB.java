@@ -16,13 +16,13 @@ public class ProductDB extends Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long codigo;
     @Column(name = "description", nullable = false)
-     private String description;
+    private String description;
 
     @Column(name = "price", nullable = false)
-     private Float price;
+    private Float price;
 
     @Column(name = "amount",  nullable = false)
-     private Integer amount;
+    private Integer amount;
     @Column(name = "type",  nullable = false)
     private String type;
 
