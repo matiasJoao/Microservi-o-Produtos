@@ -36,9 +36,9 @@ public class ProductController {
         return productService.ListFilterId(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }
     @GetMapping
-    @RequestMapping("/products/description/{description}")
-    public List<ProductDB> FilterDescription (@PathVariable String description){
-      return productService.FilterDescription(description);
+    @RequestMapping("/products/type/{type}")
+    public List<ProductDB> FilterDescription (@PathVariable String type){
+      return productService.FilterType(type);
     }
     @GetMapping
     @RequestMapping("/products/pagination")
@@ -49,6 +49,12 @@ public class ProductController {
     @RequestMapping("/product/update/price/{id}/{price}")
     public ProductDB UpdatePrice(@PathVariable("id") Long id, @PathVariable("price") Float price){
         return productService.UpdatePrice(id, price);
+    }
+
+    @PatchMapping
+    @RequestMapping("/product/update/amount/{id}/{amount}")
+    public ProductDB UpadateAmount(@PathVariable("id")Long id, @PathVariable("amount") Integer amount){
+        return productService.UpdateAmount(id,amount);
     }
     @PutMapping
     @RequestMapping("/product/update/{codigo}")

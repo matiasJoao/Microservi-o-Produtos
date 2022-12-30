@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class ProductDB extends Product {
-    public ProductDB(Long codigo, String descripton, Float price, Integer amount) {
-        super(codigo, descripton, price, amount);
+    public ProductDB(Long codigo, String descripton, Float price, Integer amount, String type) {
+        super(codigo, descripton, price, amount, type);
     }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,5 +23,7 @@ public class ProductDB extends Product {
 
     @Column(name = "amount",  nullable = false)
      private Integer amount;
+    @Column(name = "type",  nullable = false)
+    private String type;
 
 }

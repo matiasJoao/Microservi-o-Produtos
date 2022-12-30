@@ -5,14 +5,18 @@ public class Product {
     private String descripton;
     private Float price;
     private Integer amount;
+
+    private String type;
     public Product(){
 
     }
-    public Product(Long codigo, String descripton,Float price,Integer amount) {
+    public Product(Long codigo, String descripton,Float price,Integer amount, String type) {
         this.Codigo = codigo;
         this.descripton = descripton;
         this.price = price;
         this.amount = amount;
+        this.type = type;
+
     }
 
 
@@ -47,5 +51,13 @@ public class Product {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
