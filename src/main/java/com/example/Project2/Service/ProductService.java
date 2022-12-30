@@ -23,18 +23,21 @@ public class ProductService {
     ResponseHandler responseHandler;
 
     public ResponseEntity save(ProductDB productDB) {
-      String desc;
+      String desc, type;
       Integer amount;
       Float price;
-      Boolean verify;
+      Boolean verifyDesc;
+      Boolean verifyType;
       amount=  productDB.getAmount();
       price = productDB.getPrice();
       desc = productDB.getDescription();
-     /* Regex regex = new Regex();
-      verify = regex.description(desc); */
+      type = productDB.getType();
+      Regex regex = new Regex();
+      verifyDesc = regex.description(desc);
+      verifyType = regex.description(type);
 
 
-           if( desc.equalsIgnoreCase("") || price <= 0 || amount <= 0){
+           if( verifyDesc|| verifyType || price <= 0 || amount <= 0){
                responseHandler = new ResponseHandler("400", "Valores invalidos", HttpStatus.BAD_REQUEST, new Date());
                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseHandler);
            }

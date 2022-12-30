@@ -6,14 +6,14 @@ import java.util.regex.Pattern;
 public class Regex {
 
     public Boolean description(String description){
-        Pattern pattern = Pattern.compile("^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$");
+        Pattern pattern = Pattern.compile("[^\\ ]+");
         Matcher matcher = pattern.matcher(description);
         Boolean verify;
         if(matcher.matches()){
-            verify = true;
+            verify = false;
         }
         else{
-            verify = false;
+            verify = true;
         }
         return verify;
     }
