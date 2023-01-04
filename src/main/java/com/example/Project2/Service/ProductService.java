@@ -2,6 +2,7 @@ package com.example.Project2.Service;
 
 
 import com.example.Project2.Service.Regex.Regex;
+import com.example.Project2.Service.ResponseHandler.DeleteHandler;
 import com.example.Project2.Service.ResponseHandler.ResponseHandler;
 import com.example.Project2.infra.ProductRepository;
 import com.example.Project2.infra.entities.ProductDB;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 
 import java.util.Date;
@@ -21,6 +23,7 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
     ResponseHandler responseHandler;
+    DeleteHandler deleteHandler;
 
     public ResponseEntity save(ProductDB productDB) {
         String desc, type;
@@ -35,9 +38,10 @@ public class ProductService {
         Regex regex = new Regex();
         verifyDesc = regex.description(desc);
         verifyType = regex.description(type);
+       //desc.isBlank()||desc.isEmpty()
+        // StringUtils
 
-
-        if( verifyDesc|| verifyType || price <= 0 || amount <= 0){
+        if( verifyDesc|| verifyType || price <= 0 || amount <= 0 ){
             responseHandler = new ResponseHandler("400", "Valores invalidos", HttpStatus.BAD_REQUEST, new Date());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseHandler);
         }
@@ -48,40 +52,42 @@ public class ProductService {
         }
     }
 
-    public List<ProductDB> ListProducts() {
+    public List<ProductDB> listProducts() {
         return productRepository.findAll();
     }
 
-    public Optional<ProductDB> ListFilterId(Long id) {
+    public Optional<ProductDB> listFilterId(Long id) {
         return productRepository.findById(id);
     }
 
-    public ResponseEntity Delete(Long id) {
+    public ResponseEntity delete(Long id) {
+        ProductDB productDB =  productRepository.getById(id);
+        deleteHandler = new DeleteHandler("202", "Deletado", HttpStatus.ACCEPTED, new Date(), productDB.getDescription(), productDB.getType(), productDB.getPrice(), productDB.getAmount());
         productRepository.deleteById(id);
-        responseHandler = new ResponseHandler("200", "Deletado", HttpStatus.OK, new Date());
-        return ResponseEntity.status(HttpStatus.OK).body(responseHandler);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(deleteHandler);
     }
 
-    public ProductDB EditById(Long id, ProductDB productDB) {
+    public ProductDB editById(Long id, ProductDB productDB) {
+
         return productRepository.save(productDB);
     }
 
-    public List<ProductDB> FilterType(String type) {
+    public List<ProductDB> filterType(String type) {
         return productRepository.findByType(type);
     }
 
-    public ProductDB UpdatePrice(Long id, Float price) {
+    public ProductDB updatePrice(Long id, Float price) {
 
         ProductDB productDB = productRepository.findByCodigo(id);
         productDB.setPrice(price);
         return productRepository.save(productDB);
     }
-    public ProductDB UpdateAmount(Long id, Integer amount) {
+    public ProductDB updateAmount(Long id, Integer amount) {
         ProductDB productDB = productRepository.findByCodigo(id);
         productDB.setAmount(amount);
         return productRepository.save(productDB);
     }
-    public Page<ProductDB> Paginacao(Pageable pageable){
+    public Page<ProductDB> paginacao(Pageable pageable){
         return productRepository.findAll(pageable);
     }
 
