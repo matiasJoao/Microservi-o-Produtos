@@ -4,6 +4,7 @@ package com.example.Project2.Service;
 import com.example.Project2.Service.Regex.Regex;
 import com.example.Project2.Service.ResponseHandler.DeleteHandler;
 import com.example.Project2.Service.ResponseHandler.ResponseHandler;
+import com.example.Project2.Service.ResponseHandler.ResponseStatusErrorException;
 import com.example.Project2.infra.ProductRepository;
 import com.example.Project2.infra.entities.ProductDB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,30 +26,29 @@ public class ProductService {
     ResponseHandler responseHandler;
     DeleteHandler deleteHandler;
 
-    public ResponseEntity save(ProductDB productDB) {
+    public ProductDB save(ProductDB productDB) {
         String desc, type;
         Integer amount;
         Float price;
-        Boolean verifyDesc;
-        Boolean verifyType;
+      // Boolean verifyDesc;
+      //  Boolean verifyType;
         amount=  productDB.getAmount();
         price = productDB.getPrice();
         desc = productDB.getDescription();
         type = productDB.getType();
-        Regex regex = new Regex();
-        verifyDesc = regex.description(desc);
-        verifyType = regex.description(type);
+      //  Regex regex = new Regex();
+      //  verifyDesc = regex.description(desc);
+       // verifyType = regex.description(type);
        //desc.isBlank()||desc.isEmpty()
         // StringUtils
 
-        if( verifyDesc|| verifyType || price <= 0 || amount <= 0 ){
-            responseHandler = new ResponseHandler("400", "Valores invalidos", HttpStatus.BAD_REQUEST, new Date());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseHandler);
+        if(  desc.isBlank()|| type.isBlank() || price <= 0 || amount <= 0 ){
+           throw new ResponseStatusErrorException("empty args");
         }
         else {
             productRepository.save(productDB);
             responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED, new Date());
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseHandler);
+            return productDB;
         }
     }
 
@@ -62,7 +62,7 @@ public class ProductService {
 
     public ResponseEntity delete(Long id) {
         ProductDB productDB =  productRepository.getById(id);
-        deleteHandler = new DeleteHandler("202", "Deletado", HttpStatus.ACCEPTED, new Date(), productDB.getDescription(), productDB.getType(), productDB.getPrice(), productDB.getAmount());
+        deleteHandler = new DeleteHandler("202", "Deletado", HttpStatus.ACCEPTED, new Date(), Optional.of(productDB));
         productRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(deleteHandler);
     }
@@ -72,8 +72,8 @@ public class ProductService {
         return productRepository.save(productDB);
     }
 
-    public List<ProductDB> filterType(String type) {
-        return productRepository.findByType(type);
+    public List<ProductDB> filterType(String type, Pageable pageable) {
+        return productRepository.findByType(type, pageable);
     }
 
     public ProductDB updatePrice(Long id, Float price) {
@@ -91,5 +91,16 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
+    public Page<ProductDB> findDesc (String description, Pageable pageable){
+        Page<ProductDB> desc = productRepository.findDescription(description, pageable);
+        return desc;
+    }
+   /* public Page<ProductDB> findPrice(Float price, Pageable pageable){
+        Page<ProductDB> pri  = productRepository.findPrice(price, pageable);
+        return  pri;
+    }
+    */
 }
+
+
 

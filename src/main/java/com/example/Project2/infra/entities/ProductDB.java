@@ -1,8 +1,10 @@
 package com.example.Project2.infra.entities;
 
 import com.example.Project2.Dominio.Product;
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

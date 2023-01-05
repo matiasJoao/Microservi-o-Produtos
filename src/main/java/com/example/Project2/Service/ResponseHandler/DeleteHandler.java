@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;
+import java.util.Optional;
 
 @NoArgsConstructor
 @Builder
@@ -18,9 +19,7 @@ public class DeleteHandler {
     private String mensage;
     private HttpStatus httpStatus;
     private Date Date;
-    private String description;
-    private String type;
-    private Float price;
-    private Integer amount;
+
+    private Optional<ProductDB> product;
 
 }

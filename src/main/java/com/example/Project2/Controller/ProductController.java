@@ -2,7 +2,6 @@ package com.example.Project2.Controller;
 
 import com.example.Project2.Service.ProductService;
 import com.example.Project2.infra.entities.ProductDB;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +20,7 @@ public class ProductController {
 
     @PostMapping
     @RequestMapping("product/register")
-    public ResponseEntity ProductResgister(@RequestBody @Valid ProductDB  productDB){
+    public ProductDB ProductResgister(@RequestBody  ProductDB  productDB){
         return productService.save(productDB);
     }
     @GetMapping
@@ -37,14 +36,28 @@ public class ProductController {
     }
     @GetMapping
     @RequestMapping("/products/type/{type}")
-    public List<ProductDB> FilterDescription (@PathVariable String type){
-        return productService.filterType(type);
+    public List<ProductDB> FilterDescription (@PathVariable("type") String type, Pageable pageable){
+        return productService.filterType(type, pageable);
     }
     @GetMapping
     @RequestMapping("/products/pagination")
     public Page<ProductDB> ListAlunosPagina(Pageable pageable){
         return productService.paginacao(pageable);
     }
+
+    @GetMapping
+    @RequestMapping("/products/description/{description}")
+    public Page<ProductDB> filterDescription(@PathVariable("description") String description, Pageable pageable){
+        return productService.findDesc(description, pageable);
+    }
+   /* @GetMapping
+    @RequestMapping("/products/price/{price}")
+    public Page<ProductDB> filterPrice(@PathVariable("price") String price, Pageable pageable){
+        Float price2 = Float.parseFloat(price);
+        return productService.findPrice(price2, pageable);
+    }
+
+    */
     @PatchMapping
     @RequestMapping("/product/update/{id}/price/{price}")
     public ProductDB UpdatePrice(@PathVariable("id") Long id, @PathVariable("price") Float price){

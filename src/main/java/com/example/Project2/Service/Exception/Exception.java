@@ -2,7 +2,9 @@ package com.example.Project2.Service.Exception;
 
 
 import com.example.Project2.Service.ResponseHandler.ResponseHandler;
-import jakarta.validation.ConstraintViolationException;
+import javax.validation.ConstraintViolationException;
+
+import com.example.Project2.Service.ResponseHandler.ResponseStatusErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,6 +35,11 @@ public class Exception extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity SQLIntegrityException(SQLIntegrityConstraintViolationException e){
         ResponseHandler error = new ResponseHandler("400", "empty body", HttpStatus.BAD_REQUEST, new Date());
+        return new  ResponseEntity (error, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(ResponseStatusErrorException.class)
+    public ResponseEntity responseCampoVazio(ResponseStatusErrorException e){
+        ResponseHandler error = new ResponseHandler("400", "empty args", HttpStatus.BAD_REQUEST, new Date());
         return new  ResponseEntity (error, HttpStatus.BAD_REQUEST);
     }
 }
