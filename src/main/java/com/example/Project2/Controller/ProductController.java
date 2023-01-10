@@ -78,9 +78,10 @@ public class ProductController {
 
     @DeleteMapping
     @RequestMapping("/product/delete/{id}")
-    public ResponseEntity Delete(@PathVariable Long id){
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void Delete(@PathVariable Long id){
         ProductId(id);
-        return productService.delete(id);
+       productService.delete(id);
     }
 
 }

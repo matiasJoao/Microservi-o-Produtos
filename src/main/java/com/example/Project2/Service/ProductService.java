@@ -41,15 +41,24 @@ public class ProductService {
        // verifyType = regex.description(type);
        //desc.isBlank()||desc.isEmpty()
         // StringUtils
+      var test = productRepository.findAll().stream().filter(p ->p.getDescription().equalsIgnoreCase(productDB.getDescription())).findFirst();
 
-        if(  desc.isBlank()|| type.isBlank() || price <= 0 || amount <= 0 ){
-           throw new ResponseStatusErrorException("empty args");
-        }
-        else {
-            productRepository.save(productDB);
-            responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED, new Date());
-            return productDB;
-        }
+      if      (desc.isBlank() || type.isBlank() || price <= 0 || amount <= 0)
+            {
+                throw new ResponseStatusErrorException("empty args");
+            }
+      else if (test.isPresent())
+             {
+               return   updateAmount(test.get().getCodigo(), test.get().getAmount()+productDB.getAmount());
+            }
+      else
+            {
+                  productRepository.save(productDB);
+                  //responseHandler = new ResponseHandler("201", "Cadastrado", HttpStatus.CREATED, new Date());
+                  return productDB;
+            }
+
+
     }
 
     public List<ProductDB> listProducts() {
@@ -60,15 +69,11 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public ResponseEntity delete(Long id) {
-        ProductDB productDB =  productRepository.getById(id);
-        deleteHandler = new DeleteHandler("202", "Deletado", HttpStatus.ACCEPTED, new Date(), Optional.of(productDB));
+    public void delete(Long id) {
         productRepository.deleteById(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(deleteHandler);
     }
 
     public ProductDB editById(Long id, ProductDB productDB) {
-
         return productRepository.save(productDB);
     }
 
