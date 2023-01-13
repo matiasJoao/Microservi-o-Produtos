@@ -1,10 +1,13 @@
-package com.example.Project2.Service.Exception;
+package com.example.Project2.Exception;
 
 
-import com.example.Project2.Service.ResponseHandler.ResponseHandler;
+import com.example.Project2.DTO.Response;
+import com.example.Project2.Exception.ResponseHandler.Forbiden;
+import com.example.Project2.Exception.ResponseHandler.ResponseHandler;
 import javax.validation.ConstraintViolationException;
 
-import com.example.Project2.Service.ResponseHandler.ResponseStatusErrorException;
+import com.example.Project2.Exception.ResponseHandler.ResponseStatusErrorException;
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,4 +45,22 @@ public class Exception extends ResponseEntityExceptionHandler {
         ResponseHandler error = new ResponseHandler("400", "empty args", HttpStatus.BAD_REQUEST, new Date());
         return new  ResponseEntity (error, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity handlerRunTimeE(RuntimeException e){
+        Response error = new Response(e.getMessage(),"401",  HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity FeingExceptionHandler(FeignException e){
+        Response error = new Response("Token Invalido", "401", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity(error, HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(Forbiden.class)
+    public ResponseEntity ForbindHandler(Forbiden e){
+        Response error = new Response("Acesso Invaldio", "403", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+
 }

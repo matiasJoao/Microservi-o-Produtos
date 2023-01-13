@@ -1,22 +1,17 @@
 package com.example.Project2.Service;
 
 
-import com.example.Project2.Service.Regex.Regex;
-import com.example.Project2.Service.ResponseHandler.DeleteHandler;
-import com.example.Project2.Service.ResponseHandler.ResponseHandler;
-import com.example.Project2.Service.ResponseHandler.ResponseStatusErrorException;
+import com.example.Project2.Exception.ResponseHandler.DeleteHandler;
+import com.example.Project2.Exception.ResponseHandler.ResponseHandler;
+import com.example.Project2.Exception.ResponseHandler.ResponseStatusErrorException;
 import com.example.Project2.infra.ProductRepository;
 import com.example.Project2.infra.entities.ProductDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service

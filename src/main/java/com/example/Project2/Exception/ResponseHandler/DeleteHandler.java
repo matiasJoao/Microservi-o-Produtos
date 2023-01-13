@@ -1,4 +1,4 @@
-package com.example.Project2.Service.ResponseHandler;
+package com.example.Project2.Exception.ResponseHandler;
 
 import com.example.Project2.infra.entities.ProductDB;
 import lombok.AllArgsConstructor;
