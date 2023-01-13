@@ -7,6 +7,7 @@ import com.example.Project2.Exception.ResponseHandler.ResponseHandler;
 import javax.validation.ConstraintViolationException;
 
 import com.example.Project2.Exception.ResponseHandler.ResponseStatusErrorException;
+import com.example.Project2.Exception.ResponseHandler.Unauthorized;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +48,8 @@ public class Exception extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity handlerRunTimeE(RuntimeException e){
-        Response error = new Response(e.getMessage(),"401",  HttpStatus.UNAUTHORIZED);
-        return new ResponseEntity(error, HttpStatus.UNAUTHORIZED);
+        Response error = new Response(e.getMessage(),"404",  HttpStatus.NOT_FOUND);
+        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FeignException.class)
@@ -60,6 +61,11 @@ public class Exception extends ResponseEntityExceptionHandler {
     public ResponseEntity ForbindHandler(Forbiden e){
         Response error = new Response("Acesso Invaldio", "403", HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+    @ExceptionHandler(Unauthorized.class)
+    public ResponseEntity UnauthorizedHandler(Unauthorized e){
+        Response error = new Response("Token Invalido", "401", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
 

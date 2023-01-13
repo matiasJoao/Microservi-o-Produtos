@@ -1,2 +1,4 @@
-package com.example.Project2.Exception.ResponseHandler;public class Unauthorized {
+package com.example.Project2.Exception.ResponseHandler;
+
+public class Unauthorized extends RuntimeException{
 }

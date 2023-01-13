@@ -1,5 +1,6 @@
 package com.example.Project2.Controller;
 
+import com.example.Project2.Exception.ResponseHandler.Unauthorized;
 import com.example.Project2.Service.FeingService;
 import com.example.Project2.Service.ProductService;
 import com.example.Project2.Exception.ResponseHandler.Forbiden;
@@ -27,11 +28,11 @@ public class ProductController {
     public ProductDB ProductResgister(@RequestBody  ProductDB  productDB, @RequestHeader(HttpHeaders.AUTHORIZATION)String tkn){
         if(feingService.tokenValdition(tkn)){
             if(feingService.tokenTypeUser(tkn).equalsIgnoreCase("cliente")){
-                throw new RuntimeException("Acesso Invalido");
+                throw new Forbiden();
             }
             return productService.save(productDB);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
     @GetMapping
     @RequestMapping("/products")
@@ -39,7 +40,7 @@ public class ProductController {
         if(feingService.tokenValdition(tkn)){
             return productService.listProducts();
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
 
     @GetMapping
@@ -48,7 +49,7 @@ public class ProductController {
         if(feingService.tokenValdition(tkn)){
             return productService.listFilterId(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
     @GetMapping
     @RequestMapping("/products/type/{type}")
@@ -56,7 +57,7 @@ public class ProductController {
         if(feingService.tokenValdition(tkn)){
             return productService.filterType(type, pageable);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
     @GetMapping
     @RequestMapping("/products/pagination")
@@ -64,7 +65,7 @@ public class ProductController {
         if(feingService.tokenValdition(tkn)){
             return productService.paginacao(pageable);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
 
     @GetMapping
@@ -73,7 +74,7 @@ public class ProductController {
         if(feingService.tokenValdition(tkn)){
             return productService.findDesc(description, pageable);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
    /* @GetMapping
     @RequestMapping("/products/price/{price}")
@@ -92,7 +93,7 @@ public class ProductController {
             }
             return productService.updatePrice(id, price);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
 
     @PatchMapping
@@ -104,7 +105,7 @@ public class ProductController {
             }
             return productService.updateAmount(id,amount);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
 
     }
     @PutMapping
@@ -116,7 +117,7 @@ public class ProductController {
             }
             return productService.editById(id, productDB);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
 
 
@@ -132,7 +133,7 @@ public class ProductController {
             productService.delete(id);
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        throw new RuntimeException("Token Invalido");
+        throw new Unauthorized();
     }
 
 }
